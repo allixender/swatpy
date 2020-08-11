@@ -1,0 +1,5 @@
+v__SFTMP__bsn    -3   0.5
+v__SMTMP__bsn    0   2
+v__SMFMX__bsn    2.5   4.5
+v__SMFMN__bsn    0   3
+v__TIMP__bsn    0   1

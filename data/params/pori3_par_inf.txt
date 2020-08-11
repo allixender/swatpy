@@ -1,0 +1,77 @@
+a__GW_DELAY.gw  -30   60
+r__ALPHA_BF.gw    -0.1  0.1
+a__GWQMN.gw   -1000   1000
+v__GW_REVAP.gw   0.02  0.2
+v__REVAPMN.gw        2.343318    10.782681
+a__RCHRG_DP.gw  -0.05    0.05
+r__CN2.mgt       -0.164520    -0.05
+r__SOL_CRK.sol  -0.15  0.15
+r__SOL_BD().sol    -0.15  0.15
+r__SOL_AWC().sol  -0.1  0.1
+r__SOL_K().sol        4.743650    15.235350
+r__OV_N.hru   -0.15  0.15
+v__LAT_TTIME.hru   0  100
+r__SLSOIL.hru   -0.15  0.15
+r__CANMX.hru  -0.15  0.15
+v__ESCO.hru        0.726256     0.99
+v__EPCO.hru        0.631344     0.99
+v__CH_K1.sub   0  5
+v__CH_N1.sub   0.01  0.02
+v__SURLAG.bsn   0.01  24
+
+v__SMFMX.bsn 0 20
+v__SMFMN.bsn 0 20
+
+r__CH_N2.rte        -0.061300  -0.061300
+v__ALPHA_BNK.rte    0.009150     0.009150
+v__SFTMP.bsn       -2.3         -2.3
+v__SMTMP.bsn        1.712393     1.712393
+V__SNOCOVMX.bsn     60.232777    60.232777
+v__SNO50COV.bsn     0.604334     0.604334
+
+
+
+// fixed values
+// v__ALPHA_BF.gw      0.0825       0.0825
+// v__SFTMP.bsn       -2.3         -2.3
+// v__SMTMP.bsn        1.712393     1.712393
+// V__SNOCOVMX.bsn     60.232777    60.232777
+// v__SNO50COV.bsn     0.604334     0.604334
+// v__ESCO.hru         1.034971     1.034971
+// v__EPCO.hru         1.112608     1.112608
+// v__GW_DELAY.gw      19.324812    19.324812
+// v__GW_REVAP.gw       0.193750    0.193750
+
+// r__CH_N2.rte        -0.061300  -0.061300
+// v__ALPHA_BNK.rte    0.009150     0.009150
+// v__GWQMN.gw        3.222500   3.222500
+
+// r__CN2.mgt         -0.093000    -0.093000
+// r__OV_N.hru         0.109100   0.109100
+// v__REVAPMN.gw       6.563000   6.563000
+// r__SOL_K().sol      9.989500  9.989500
+
+
+
+// 200 run main params  r2 = 0.6
+-----------
+
+r__CN2.mgt    -0.15   0.05
+r__OV_N.hru       -0.1     0.2
+r__CH_N2.rte         -0.1     0.2
+v__ALPHA_BNK.rte       0     0.61
+v__ESCO.hru                0.7       1.0
+v__EPCO.hru                0.3       1.0
+
+v__ALPHA_BF.gw             0.0       0.6
+v__GW_DELAY.gw	           0.5       50.0
+v__GWQMN.gw                0.5       8.0
+v__GW_REVAP.gw             0.05       0.3
+v__REVAPMN.gw        4.0    15.0
+
+r__SOL_K().sol    -0.5   10
+
+v__SFTMP.bsn       -1.8     2.5
+v__SMTMP.bsn       0.1     2.0
+V__SNOCOVMX.bsn     40     80
+v__SNO50COV.bsn         0.4    0.8

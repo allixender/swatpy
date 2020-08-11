@@ -1,0 +1,17 @@
+numpy
+pandas
+spotpy
+scipy
+# gdal>3
+# fiona
+# geopandas
+# fastavro
+# pyarrow
+# parquet
+# dask
+# distributed
+# pylint
+# pytest
+# rasterio
+# xarray
+# pyproj
