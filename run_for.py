@@ -1,9 +1,9 @@
-
 import os
 from pathlib import Path
 import uuid
 import shutil
 import sys
+import getopt
 import traceback
 
 import numpy as np
@@ -12,121 +12,14 @@ import pandas as pd
 import spotpy
 from pyswat import SimManage, ReadOut, FileEdit
 
-
-class rosenspot_setup(object):
-
-    def __init__(self):
-
-        self.params = [spotpy.parameter.Uniform('x',-10,10,1.5,3.0,-10,10),
-                       spotpy.parameter.Uniform('y',-10,10,1.5,3.0,-10,10),
-                       ]
-    
-
-    def parameters(self):
-        return spotpy.parameter.generate(self.params)
-    
-    
-    # provide the available observed data
-    def evaluation(self):
-        observations = [0]
-        return observations
+swat_bin = "/gpfs/hpc/home/kmoch/bin/swat_rel640_static"
 
 
-    # Simulation function must not return values besides for which evaluation values/observed data are available
-    def simulation(self, vector):      
-        x = np.array(vector)
-        simulations = [sum(100.0*(x[1:] - x[:-1]**2.0)**2.0 + (1 - x[:-1])**2.0)]
-        return simulations
+def update_SLSOIL(mpath):
 
-
-    # if we want to minimize our function, we can select a negative objective function
-    def objectivefunction(self, simulation, evaluation):
-        objectivefunction= -spotpy.objectivefunctions.rmse(evaluation,simulation)      
-        return objectivefunction
-
-
-def demo3():
-
-    results=[]
-    spot_setup=rosenspot_setup()
-    rep=1000
-    timeout=10 #Given in Seconds
-
-    parallel = "seq"
-    dbformat = "csv"
-
-    sampler=spotpy.algorithms.lhs(spot_setup,parallel=parallel, dbname='DemoRosenLHS', dbformat=dbformat, sim_timeout=timeout)
-
-    sampler.sample(rep)
-    
-    results.append(sampler.getdata())
-
-    print(type(results[0]))
-    print(len(results))
-    print(results[0].shape)
-
-    algorithms = ['lhs']
-    spotpy.analyser.plot_parametertrace_algorithms(results, algorithms, spot_setup)
-
-    sampler=spotpy.algorithms.fast(spot_setup,  dbname='DemoRosenFAST',  dbformat=dbformat)
-    sampler.sample(rep)
-
-
-def demo1():
-
-    model3 = SimManage.SwatModel.loadModelFromDirectory('demo_callib2')
-    print(model3.working_dir)
-
-    print(f"is it runnable: {model3.is_runnable()}")
-
-    # ret_val = model3.run(capture_logs=True, silent=False)
-    # print(f"returns {ret_val} - vs {model3.last_run_succesful}")
-    # print(model3.last_run_logs)
-    
-    temp_dir = 'swat_21347e0a-d724-11ea-8ddc-54e1ad562245'
-    model3.enrichModelMeta()
-
-    subbasins = [1]
-
-    print("reader1 rch 1")
-    reader1 = ReadOut.rchOutputManipulator(["FLOW_OUT"], subbasins,"indi",False,0, model3.working_dir, iprint="month", stats_dir=temp_dir)
-    print(reader1.outValues["FLOW_OUT"][subbasins[0]])
-
-    outvalues = len(reader1.outValues['FLOW_OUT'][subbasins[0]])
-    print(f"num sim points: {outvalues}")
-    
-    print("reader1 efficiency")
-    # TODO: add logic for observed data?
-    fileName = os.path.join('data', os.path.join('observed','pori_flow_monthly_2003-2010.txt'))
-    efficiency = ReadOut.efficiency(output="FLOW_OUT", area=subbasins[0], observed=fileName, fileColumn=3, daysSkip=0, working_dir=model3.working_dir, iprint="month")
-
-    print(f"efficiency.obs.min() {efficiency.obs.min()}")
-    
-    # TODO: add nodata handling/masking to ReadOut and stats module
-    import numpy.ma as ma
-    
-    obs_ma = ma.masked_where(efficiency.obs == -9999.0, efficiency.obs)
-    print(f" obs ma masked mean {np.mean(obs_ma)}")
-    
-    print(f" obs_ma.min() {obs_ma.min()}")
-
-    print(f" len(efficiency.obs) {len(efficiency.obs)}")
-    print(f" len(obs_ma) {len(obs_ma)}")
-
-    print(f" efficiency.nash() {efficiency.nash()}")
-
-    print("reader2 sub 1")
-    reader2 = ReadOut.subOutputManipulator(["SURQ","GW_Q","LAT_Q","PRECIP"],subbasins,"indi",False,0,model3.working_dir, stats_dir=temp_dir)
-    print(reader2.outValues)
-
-    print("fluxes sub 1")
-    fluxes = ReadOut.fluxes("SURQ", subbasins, 1, model3.working_dir)
-    print(fluxes.result())
-
-
-def demo2():
-
-    model3 = SimManage.SwatModel.loadModelFromDirectory('demo_callib2')
+    model3 = SimManage.SwatModel.initFromTxtInOut(
+        mpath, copy=False, target_dir=None, swat_version="2012", force=True
+    )
     print(model3.working_dir)
 
     manipulators = model3.getFileManipulators()
@@ -139,29 +32,32 @@ def demo2():
     """
 
     # hrufiles SLSUBBSN -> SLSOIL
-    for hruMan in manipulators['hru']:
-        if hruMan.filename == '000060001.hru':
-            print(f"{hruMan.filename} SLSUBBSN {hruMan.parValue['SLSUBBSN'][0]} -> SLSOIL {hruMan.parValue['SLSOIL'][0]}; LAT_TTIME {hruMan.parValue['LAT_TTIME'][0]}")
-    #     hruMan.setChangePar("SLSOIL",hruMan.parValue['SLSUBBSN'][0],"s")
-    #     hruMan.finishChangePar()
-    
-    # print("after finishChangePar()")
-    # print(f"{hruMan.filename} SLSUBBSN {hruMan.parValue['SLSUBBSN'][0]} -> SLSOIL {hruMan.parValue['SLSOIL'][0]}")
+    for hruMan in manipulators["hru"]:
+        hruMan.setChangePar("SLSOIL", hruMan.parValue["SLSUBBSN"][0], "s")
+        hruMan.finishChangePar()
 
-    # print("after reload()")
-    # manip2 = model3.reloadFileManipulators()
-    # hruMan = manip2['hru'][-1]
-    # print(f"{hruMan.filename} SLSUBBSN {hruMan.parValue['SLSUBBSN'][0]} -> SLSOIL {hruMan.parValue['SLSOIL'][0]}")
+    print("after reload()")
+    manip2 = model3.reloadFileManipulators()
+    hruMan = manip2["hru"][-1]
+    print(
+        f"{hruMan.filename} SLSUBBSN {hruMan.parValue['SLSUBBSN'][0]} -> SLSOIL {hruMan.parValue['SLSOIL'][0]}"
+    )
 
-    for subMan in manipulators['sub']:
-        if subMan.filename == '000060000.sub':
-            print(subMan.parValue)
-
-    
+    model3.swat_exec = swat_bin
     model3.enrichModelMeta()
+    model3.is_runnable()
+
+    model3.run()
 
 
+def update_LAT_TTIME(mpath):
 
+    model3 = SimManage.SwatModel.initFromTxtInOut(
+        mpath, copy=False, target_dir=None, swat_version="2012", force=True
+    )
+    print(model3.working_dir)
+
+    manipulators = model3.getFileManipulators()
     """
     Instruction to edit LAT_TTIME
 
@@ -172,7 +68,7 @@ def demo2():
     - SOL_K   Ksat: Saturated hydraulic conductivity (mm/hr)
     - If drainage tiles are present in the HRU, lateral flow travel time or TTlag is calculated as :
         〖TT〗_(lag )= 〖tile〗_lag/24. Where tilelag is the drain tile lag time (hrs)
-        〖TT〗_(lag  )=10.4  L_hill/K_(sat,mx)   (Page 163, SWAT 2009 theory)
+        〖TT〗_(lag  )=10.4  L_hill/K_(sat,max)   (Page 163, SWAT 2009 theory)
         〖TT〗_(lag  )is the lateral flow travel time (days), L_hill is the hillslope length (m) (SLSOIL)
     K_(sat,mx) is the highest layer saturated hydraulic conductivity in the soil profile (mm/hr) (Obtain it from the SOL table from the database by finding the soil layer for each HRU that has the highest hydraulic conductivity)
 
@@ -180,6 +76,35 @@ def demo2():
     """
 
     # hrufiles set LAT_TTIME
+    for hruMan in manipulators["hru"]:
+        hru_id = hruMan.filename.strip().split(".")[0]
+        SLSOIL_val = hruMan.parValue["SLSOIL"][0]
+        LAT_TTIME_val = hruMan.parValue["LAT_TTIME"][0]
+ 
+        SOL_K_MAX = 1
+        for solMan in manipulators["sol"]:
+            sol_id = solMan.filename.strip().split(".")[0]
+            if sol_id == hru_id:
+                SOL_K = solMan.parValue["SOL_K"]
+                SOL_K_MAX = np.array(SOL_K).max()
+       
+        LAT_TTIME_val_new = 10.4 * (SLSOIL_val / SOL_K_MAX)
+
+        hruMan.setChangePar("LAT_TTIME", LAT_TTIME_val_new, "s")
+        hruMan.finishChangePar()
+   
+    print("after reload()")
+    manip2 = model3.reloadFileManipulators()
+    hruMan = manip2["hru"][-1]
+    print(
+      f"{hruMan.filename} LAT_TTIME_val_new {hruMan.parValue['LAT_TTIME'][0]} -> LAT_TTIME_val_old {LAT_TTIME_val}"
+    )
+
+    model3.swat_exec = swat_bin
+    model3.enrichModelMeta()
+    model3.is_runnable()
+
+    model3.run()
 
 
 class swat_callib_setup(object):
@@ -247,9 +172,15 @@ class swat_callib_setup(object):
         shutil.copytree(self.model.working_dir, test_path)
 
         try:
-            return SimManage.SwatModel.loadModelFromDirectory(test_path)
+            m = SimManage.SwatModel.loadModelFromDirectory(test_path)
+            if m.is_runnable() == 0:
+               m.swat_exec = self.model.swat_exec
+            return m
         except ValueError:
-            return SimManage.SwatModel.initFromTxtInOut(test_path, copy=False, force=True)
+            m = SimManage.SwatModel.initFromTxtInOut(test_path, copy=False, force=True)
+            if m.is_runnable() == 0:
+               m.swat_exec = self.model.swat_exec
+            return m
     
 
     def remove_temp_model_dir(self, model):
@@ -335,7 +266,8 @@ class swat_callib_setup(object):
     def simulation(self, parameters):
         the_model = self.prep_temp_model_dir()
         the_model.enrichModelMeta(verbose=False)
-        print(f"is it runnable: {the_model.is_runnable()}")
+        if the_model.is_runnable() == 0:
+           print(f"{the_model.swat_exec} is NOT runnable: {the_model.is_runnable()}")
 
         self.manipulate_model_params(the_model, parameters)
 
@@ -366,31 +298,17 @@ class swat_callib_setup(object):
         return objectivefunction
 
 
-def demo_callib():
+def model_callib(model, mpath, param_file, sampler, repetitions):
+    
+    import uuid
 
-    model4 = {}
+    target_dir = f"/tmp/callib_{model}_{sampler}_{uuid.uuid4()}"
 
-    try:
-        model4 = SimManage.SwatModel.initFromTxtInOut(txtInOut=os.path.join(os.getcwd(),
-            os.path.join('data', 'TxtInOut')), copy=True, target_dir="demo_callib2", force=False)
-    except ValueError:
-        model4 = SimManage.SwatModel.loadModelFromDirectory('demo_callib2')
+    model4 = SimManage.SwatModel.initFromTxtInOut(txtInOut=mpath,
+      copy=True, target_dir=os.path.join(target_dir, 'TxtInOut'), force=False)
+    temp_dir = target_dir
 
-    model4.enrichModelMeta()
-    print(f"is it runnable: {model4.is_runnable()}")
-
-    # ret_val = model4.run(capture_logs=True, silent=True)
-    # print(f"returns {ret_val} - vs {model4.last_run_succesful}")
-    # print(model4.last_run_logs)
-
-    temp_dir = 'swat_b7c411b6-d727-11ea-b9a4-54e1ad562245'
-
-    # simulated data
-    # reader1 = ReadOut.rchOutputManipulator(["FLOW_OUT"], subbasins,"skip",False,0, model4.working_dir, iprint='month', stats_dir=temp_dir)
-    # sim_flow_1 = reader1.outValues["FLOW_OUT"][subbasins[0]]
-
-    # observed data
-    obs_filename = os.path.join('data', os.path.join('observed','pori_flow_monthly_2003-2010.txt'))
+    obs_filename = os.path.join('observed','pori_flow_monthly_2003-2010.txt')
     f = open(obs_filename, "r")
     lines = f.readlines()
     f.close()
@@ -402,35 +320,27 @@ def demo_callib():
 
     obs_masked = np.ma.masked_where(obs == -9999.0, obs)
 
-    # print(efficiency.obs)
-    # print(efficiency.obs_masked)
-
-    # import functools
-
-    # if functools.reduce(lambda i, j : i and j, map(lambda m, k: m == k, efficiency.outValues, efficiency.obs_masked), True) :  
-    #     print ("The lists are identical") 
-    # else : 
-    #     print ("The lists are not identical") 
-
-    # run spotpy callib sampling and sensitivity
-
-    # delimiter=' ' n-consecutive whitespace is default
-    # dtype U utf8 string
-
-    par_file_name = os.path.join('data', os.path.join('params','par_inf2.txt'))
+    par_file_name = param_file
     print(f'loading parameter file {par_file_name}')
 
     dtype=[('f0', '|U30'), ('f1', '<f8'), ('f2', '<f8')]
     par_file_load = np.genfromtxt(par_file_name, dtype=dtype, encoding='utf-8')
 
     parallel = "seq"
+    model4.swat_exec = swat_bin
     spot_setup=swat_callib_setup(model4, obs_masked, par_file_load, parallel=parallel, temp_dir=temp_dir)
-
-    repetitions=5
 
     dbformat = "csv"
 
-    lhs_calibrator_sampler = spotpy.algorithms.lhs(spot_setup, parallel=parallel, dbname='Demo4SwatLHS', dbformat=dbformat)
+    lhs_calibrator_sampler = None
+    if sampler == "LHS":
+        lhs_calibrator_sampler = spotpy.algorithms.lhs(spot_setup, parallel=parallel, dbname=f"{model}_{sampler}_{repetitions}", dbformat=dbformat)
+    if sampler == "MC":
+        lhs_calibrator_sampler = spotpy.algorithms.mc(spot_setup, parallel=parallel, dbname=f"{model}_{sampler}_{repetitions}", dbformat=dbformat)
+    if sampler == "ROPE":
+        lhs_calibrator_sampler = spotpy.algorithms.rope(spot_setup, parallel=parallel, dbname=f"{model}_{sampler}_{repetitions}", dbformat=dbformat)
+    if sampler == "DEMCZ":
+        lhs_calibrator_sampler = spotpy.algorithms.demcz(spot_setup, parallel=parallel, dbname=f"{model}_{sampler}_{repetitions}", dbformat=dbformat)
 
     lhs_calibrator_sampler.sample(repetitions)
 
@@ -438,26 +348,73 @@ def demo_callib():
 
     print(spotpy.analyser.get_best_parameterset(callib_results))
     
-    spotpy.analyser.plot_parameterInteraction(callib_results) 
-    spotpy.analyser.plot_parametertrace_algorithms(result_lists=[callib_results], algorithmnames=['lhs'], spot_setup=spot_setup)
+    # spotpy.analyser.plot_parameterInteraction(callib_results) 
+    # spotpy.analyser.plot_parametertrace_algorithms(result_lists=[callib_results], algorithmnames=['lhs'], spot_setup=spot_setup)
 
-    # fast_sensitivity_sampler = spotpy.algorithms.fast(spot_setup,  dbname='Demo4SwatFAST',  dbformat=dbformat)
-    # fast_sensitivity_sampler.sample(repetitions)
+    fast_sensitivity_sampler = spotpy.algorithms.fast(spot_setup,  dbname=f"{model}_{sampler}_{repetitions}_FAST",  dbformat=dbformat)
+    fast_sensitivity_sampler.sample(repetitions)
 
-    # sens_results = fast_sensitivity_sampler.getdata()
-    # spotpy.analyser.plot_parametertrace_algorithms(sens_results, ['fast'], spot_setup)
+    sens_results = fast_sensitivity_sampler.getdata()
+
+    import shutil
+
+    shutil.move(target_dir, os.path.join('/gpfs/hpc/home/kmoch/swat', 'callib_outs'))
 
 
-if __name__ == '__main__':
+"""
+hwsd_par_inf.txt
+isric10km_par_inf.txt
+isric1km_par_inf.txt
+isric250m_par_inf.txt
+isric5km_par_inf.txt
+pori3_par_inf.txt
+"""
 
-    # model1 = SimManage.SwatModel.initFromTxtInOut(txtInOut=os.path.join(os.getcwd(),
-    #     os.path.join('data', 'TxtInOut')), copy=True)
-    
-    # model2 = SimManage.SwatModel.initFromTxtInOut(txtInOut=os.path.join(os.getcwd(),
-    #     os.path.join('data', 'TxtInOut')), copy=True, target_dir="demo_worker2")
-    
-    # demo1()
-    # demo2()
-    # demo3()
+config = {
+    "hwsd": {"path": "Balaji_HWSD1.Sufi2.SwatCup"},
+    "isric10km": {"path": "Balaji_ISRIC_10km.Sufi2.SwatCup"},
+    "isric1km": {"path": "Balaji_ISRIC_1km.Sufi2.SwatCup"},
+    "isric250m": {"path": "Balaji_ISRIC_250m.Sufi2.SwatCup"},
+    "isric5km": {"path": "Balaji_ISRIC_5km.Sufi2.SwatCup"},
+    "pori3": {"path": "Pori3_sim2.Sufi2.SwatCup"},
+}
 
-    demo_callib()
+models = ["pori3", "hwsd", "isric10km", "isric5km", "isric1km", "isric250m"]
+samplers = ["LHS", "MC", "ROPE", "DEMCZ"]
+
+
+def main(argv):
+    model = ""
+    sampler = ""
+    try:
+        opts, args = getopt.getopt(argv, "hm:s:", ["model=", "sample="])
+    except getopt.GetoptError:
+        print("test.py -m <model> -s <sampler>")
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == "-h":
+            print("test.py -m <model> -s <sampler>")
+            sys.exit()
+        elif opt in ("-m", "--model"):
+            model = arg
+            if not model in models:
+                print(f"{model} not in models, abort ({models})")
+        elif opt in ("-s", "--sampler"):
+            sampler = arg
+            if not sampler in samplers:
+                print(f"{sampler} not in models, abort ({samplers})")
+    print("Model is " + model)
+    print("Sampler is " + sampler)
+
+    mpath=os.path.join(os.getcwd(), os.path.join(model, config[model]["path"]))
+    print(f"model init path is: {mpath}")
+
+    param_file=os.path.join(os.getcwd(), os.path.join('params', model + "_par_inf.txt"))
+    # update_SLSOIL(os.path.join(model, config[model]["path"]))
+    # update_LAT_TTIME(os.path.join(model, config[model]["path"]))
+    repetitions = 20
+
+    model_callib(model=model, mpath=mpath, param_file=param_file, sampler=sampler, repetitions=repetitions)
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
