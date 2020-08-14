@@ -1,0 +1,45 @@
+# 21  : Number of Parameters (the program only reads the first XX parameters or any number indicated here)
+#  1200  : number of simulations
+
+
+r__CN2.mgt    -0.1   0.1
+v__ALPHA_BF.gw    0.001   0.5
+v__GW_DELAY.gw    0   60
+v__GW_REVAP.gw    0.02   0.2
+v__RCHRG_DP.gw    0   0.05
+v__REVAPMN.gw    0   1000 
+v__GWQMN.gw    0   1500
+v__SOL_CRK.sol    0   0.1
+r__SOL_BD().sol    -0.15   0.15
+r__SOL_AWC().sol    -0.1   0.1
+r__OV_N.hru    -0.15   0.15
+r__SOL_K().sol    -1   1
+r__LAT_TTIME.hru    0   0.2
+r__SLSOIL.hru    0   0.2
+v__CANMX.hru______FRSE    0   10
+v__CANMX.hru______FRSD    0   10
+v__CANMX.hru______FRST    0   10
+v__ESCO.hru    0.6   0.99
+v__EPCO.hru    0.6   0.99
+r__CH_S1.sub    -0.25   0.25
+r__CH_S2.rte    -0.25   0.25
+v__CH_K1.sub    0   5
+v__CH_K2.rte    0   10
+v__CH_N1.sub    0.01   0.02
+v__CH_N2.rte    0.01   0.02
+v__SURLAG.bsn    0.01   24
+
+# ** Include the following snowmelt related parameters only if your watershed has snowmelt.  Otherwise do not include it in your sensitivity and uncertainty analysis
+
+v__SFTMP.bsn    -3   0.5
+v__SMTMP.bsn    0   2
+v__SMFMX.bsn    2.5   4.5
+v__SMFMN.bsn    0   3
+v__TIMP.bsn    0   1
+
+# (Adjust the value ranges appropriate / expected for your study watershed)
+# See the procedure to initialize the LAT_TTIME in the hru table and .hru files
+# See the procedure to initialize the SLSOIL in the hru table and .hru files
+
+# The procedure for LAT_TTIME and SLSOIL is given in the attached minutes of the meeting
+

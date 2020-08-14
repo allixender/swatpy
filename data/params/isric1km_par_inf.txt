@@ -1,147 +1,147 @@
-  29   : Number of Parameters (the program only reads the first n parameters or any number indicated here)
-1200  : number of simulations
-
-                          a__RCHRG_DP.gw       -0.040160     0.007572
-                            r__CANMX.hru       -0.213253    -0.062343
-                            r__CH_N2.rte       -0.103028     0.074954
-                              r__CN2.mgt       -0.100818     0.026628
-                             r__OV_N.hru       -0.051184     0.125412
-                           r__SLSOIL.hru       -0.116808     0.028210
-                        r__SOL_AWC().sol       -0.002898     0.065436
-                         r__SOL_BD().sol       -0.331871    -0.103633
-                          r__SOL_CRK.sol       -0.069778     0.025108
-                          r__SOL_K().sol        7.990915    14.488605
-                          v__ALPHA_BF.gw        0.150203     0.450797
-                        v__ALPHA_BNK.rte       -0.004167     0.570355
-                            v__CH_K1.sub        2.744612     5.266250
-                            v__CH_N1.sub        0.011041     0.019493
-                             v__EPCO.hru        0.889352     1.405564
-                             v__ESCO.hru        0.933652     1.148518
-                          v__GW_DELAY.gw       30.467178    80.483742
-                             v__GWQMN.gw        2.837823     6.848957
-                          v__GW_REVAP.gw        0.150503     0.351581
-                        v__LAT_TTIME.hru        1.764870    68.221870
-                           v__REVAPMN.gw        1.403792     7.657246
-                            v__SFTMP.bsn       -2.042218     0.986385
-                            v__SMFMN.bsn       -3.404349     7.518785
-                            v__SMFMX.bsn       -3.974158     7.479795
-                            v__SMTMP.bsn       -0.790768     1.069934
-                         v__SNO50COV.bsn        0.267470     0.622530
-                         v__SNOCOVMX.bsn       50.980259    72.953072
-                           v__SURLAG.bsn       -9.578218     4.976625
-                             v__TIMP.bsn        0            1
-// inital calibration above for hwsd1, can delete after finish
-
-// full run at pori2_base
-                          a__RCHRG_DP.gw       -0.014860     0.016006
-                            r__CANMX.hru       -0.151616     0.066830
-                            r__CH_N2.rte       -0.193883    -0.018363
-                              r__CN2.mgt       -0.096044     0.040926
-                             r__OV_N.hru       -0.092066     0.111774
-                           r__SLSOIL.hru       -0.122317     0.026365
-                        r__SOL_AWC().sol       -0.013030     0.054916
-                         r__SOL_BD().sol       -0.325998    -0.101690
-                          r__SOL_CRK.sol       -0.042605     0.106599
-                          r__SOL_K().sol        8.276362    15.343257
-                        v__ALPHA_BNK.rte       -0.356112     0.087748
-                            v__CH_K1.sub        1.658570     3.521830
-                            v__CH_N1.sub        0.011378     0.019606
-                             v__EPCO.hru        0.872782     1.355752
-                             v__ESCO.hru        0.932818     1.145977
-                          v__GW_DELAY.gw        2.759232    38.157681
-                             v__GWQMN.gw        2.783856     6.686274
-                          v__GW_REVAP.gw        0.158804     0.376446
-                        v__LAT_TTIME.hru       56.007111   100.411179
-                           v__REVAPMN.gw        5.729316    12.502500
-                          v__SFTMP.bsn       -3.888912     0.370612
-                            v__SMFMN.bsn      -12.957630     2.601529
-                            v__SMFMX.bsn       -0.752165     8.553108
-                            v__SMTMP.bsn        0.553556     1.517944
-                         v__SNO50COV.bsn        0.242285     0.614115
-                         v__SNOCOVMX.bsn       41.808575    67.271431
-                           v__SURLAG.bsn       -5.499773     6.334855
-
-
-
-// fixed, 1st pre-run
-
-a__RCHRG_DP.gw                0.000573   0.000573
-r__CANMX.hru                  -0.042393    -0.042393
-r__CH_N2.rte                  -0.106123      -0.106123
-r__CN2.mgt                    -0.027559      -0.027559
-r__OV_N.hru                   0.009854        0.009854
-r__SLSOIL.hru                 -0.047976  -0.047976
-r__SOL_AWC().sol              0.020943    0.020943
-r__SOL_BD().sol               -0.213844    -0.213844
-r__SOL_CRK.sol                0.031997   0.031997
-r__SOL_K().sol                11.809810     11.809810
-v__ALPHA_BF.gw                0.0825       0.0825
-v__ALPHA_BNK.rte              -0.134182      -0.134182
-v__CH_K1.sub                  2.590200    2.590200
-v__CH_N1.sub                  0.015492      0.015492
-v__EPCO.hru                   1.114267      1.114267
-v__ESCO.hru                   1.039398       1.039398
-v__GW_DELAY.gw                20.458456      20.458456
-v__GWQMN.gw                   4.735065     4.735065
-v__GW_REVAP.gw                0.267625        0.267625
-v__LAT_TTIME.hru              78.209145    78.209145
-v__REVAPMN.gw                 9.115908    9.115908
-v__SFTMP.bsn                  -1.759150      -1.759150
-v__SMFMN.bsn                  -5.178051     -5.178051
-v__SMFMX.bsn                  3.900472    3.900472
-v__SMTMP.bsn                  1.035750    1.035750
-v__SNO50COV.bsn               0.428200     0.428200
-v__SNOCOVMX.bsn               54.540001       54.540001
-v__SURLAG.bsn                 0.417541      0.417541
-
-// other fixed, not sure now
-
-// r__CH_N2.rte        -0.061300  -0.061300
-// r__CN2.mgt         -0.093000    -0.093000
-// r__OV_N.hru         0.109100   0.109100
-// r__SOL_K().sol      9.989500  9.989500
-// v__ALPHA_BF.gw      0.0825       0.0825
-// v__ALPHA_BNK.rte    0.009150     0.009150
-// v__EPCO.hru         1.112608     1.112608
-// v__ESCO.hru         1.034971     1.034971
-// v__GW_DELAY.gw      19.324812    19.324812
-// v__GWQMN.gw        3.222500   3.222500
-// v__GW_REVAP.gw       0.193750    0.193750
-// v__REVAPMN.gw       6.563000   6.563000
-// v__SFTMP.bsn       -2.3         -2.3
-// v__SMTMP.bsn        1.712393     1.712393
-// v__SNO50COV.bsn     0.604334     0.604334
-// V__SNOCOVMX.bsn     60.232777    60.232777
-
-
-
-// iter 1 pre
-                          a__RCHRG_DP.gw       -0.022854     0.031438
-                            r__CANMX.hru       -0.260820     0.013070
-                            r__CH_N2.rte       -0.191980     0.069380
-                              r__CN2.mgt       -0.164520    -0.021480
-                             r__OV_N.hru        0.004520     0.213680
-                           r__SLSOIL.hru       -0.066445     0.100695
-                        r__SOL_AWC().sol       -0.037046     0.088880
-                         r__SOL_BD().sol       -0.268695     0.010445
-                          r__SOL_CRK.sol       -0.117195     0.060945
-                          r__SOL_K().sol        4.743650    15.235350
-                        v__ALPHA_BNK.rte       -0.291337     0.309637
-                            v__CH_K1.sub        1.484242     4.453258
-                            v__CH_N1.sub        0.014573     0.023719
-                          v__EPCO.hru           0.631344       1.295156
-                          v__ESCO.hru           0.826256       1.079244
-                          v__GW_DELAY.gw        5.469163       55.853340
-                             v__GWQMN.gw        0.832981     5.612019
-                          v__GW_REVAP.gw        0.050000       0.300000
-                        v__LAT_TTIME.hru       33.809841   101.440163
-                           v__REVAPMN.gw        2.343318    10.782681
-                          v__SFTMP.bsn         -1.800000      2.500000
-                          v__SMFMN.bsn       -8.863034    10.379701
-                          v__SMFMX.bsn       -0.388039    13.204706
-                          v__SMTMP.bsn         0.100000       2.000000
-                          v__SNO50COV.bsn      0.400000       0.800000
-                          v__SNOCOVMX.bsn      40.000000      80.000000
-                           v__SURLAG.bsn      -11.250946    12.250538
-
-// temp
+#   29   : Number of Parameters (the program only reads the first n parameters or any number indicated here)
+# 1200  : number of simulations
+# 
+                           a__RCHRG_DP.gw       -0.040160     0.007572
+                             r__CANMX.hru       -0.213253    -0.062343
+                             r__CH_N2.rte       -0.103028     0.074954
+                               r__CN2.mgt       -0.100818     0.026628
+                              r__OV_N.hru       -0.051184     0.125412
+                            r__SLSOIL.hru       -0.116808     0.028210
+                         r__SOL_AWC().sol       -0.002898     0.065436
+                          r__SOL_BD().sol       -0.331871    -0.103633
+                           r__SOL_CRK.sol       -0.069778     0.025108
+                           r__SOL_K().sol        7.990915    14.488605
+                           v__ALPHA_BF.gw        0.150203     0.450797
+                         v__ALPHA_BNK.rte       -0.004167     0.570355
+                             v__CH_K1.sub        2.744612     5.266250
+                             v__CH_N1.sub        0.011041     0.019493
+                              v__EPCO.hru        0.889352     1.405564
+                              v__ESCO.hru        0.933652     1.148518
+                           v__GW_DELAY.gw       30.467178    80.483742
+                              v__GWQMN.gw        2.837823     6.848957
+                           v__GW_REVAP.gw        0.150503     0.351581
+                         v__LAT_TTIME.hru        1.764870    68.221870
+                            v__REVAPMN.gw        1.403792     7.657246
+                             v__SFTMP.bsn       -2.042218     0.986385
+                             v__SMFMN.bsn       -3.404349     7.518785
+                             v__SMFMX.bsn       -3.974158     7.479795
+                             v__SMTMP.bsn       -0.790768     1.069934
+                          v__SNO50COV.bsn        0.267470     0.622530
+                          v__SNOCOVMX.bsn       50.980259    72.953072
+                            v__SURLAG.bsn       -9.578218     4.976625
+                              v__TIMP.bsn        0            1
+# // inital calibration above for hwsd1, can delete after finish
+# 
+# // full run at pori2_base
+#                           a__RCHRG_DP.gw       -0.014860     0.016006
+#                             r__CANMX.hru       -0.151616     0.066830
+#                             r__CH_N2.rte       -0.193883    -0.018363
+#                               r__CN2.mgt       -0.096044     0.040926
+#                              r__OV_N.hru       -0.092066     0.111774
+#                            r__SLSOIL.hru       -0.122317     0.026365
+#                         r__SOL_AWC().sol       -0.013030     0.054916
+#                          r__SOL_BD().sol       -0.325998    -0.101690
+#                           r__SOL_CRK.sol       -0.042605     0.106599
+#                           r__SOL_K().sol        8.276362    15.343257
+#                         v__ALPHA_BNK.rte       -0.356112     0.087748
+#                             v__CH_K1.sub        1.658570     3.521830
+#                             v__CH_N1.sub        0.011378     0.019606
+#                              v__EPCO.hru        0.872782     1.355752
+#                              v__ESCO.hru        0.932818     1.145977
+#                           v__GW_DELAY.gw        2.759232    38.157681
+#                              v__GWQMN.gw        2.783856     6.686274
+#                           v__GW_REVAP.gw        0.158804     0.376446
+#                         v__LAT_TTIME.hru       56.007111   100.411179
+#                            v__REVAPMN.gw        5.729316    12.502500
+#                           v__SFTMP.bsn       -3.888912     0.370612
+#                             v__SMFMN.bsn      -12.957630     2.601529
+#                             v__SMFMX.bsn       -0.752165     8.553108
+#                             v__SMTMP.bsn        0.553556     1.517944
+#                          v__SNO50COV.bsn        0.242285     0.614115
+#                          v__SNOCOVMX.bsn       41.808575    67.271431
+#                            v__SURLAG.bsn       -5.499773     6.334855
+# 
+# 
+# 
+# // fixed, 1st pre-run
+# 
+# a__RCHRG_DP.gw                0.000573   0.000573
+# r__CANMX.hru                  -0.042393    -0.042393
+# r__CH_N2.rte                  -0.106123      -0.106123
+# r__CN2.mgt                    -0.027559      -0.027559
+# r__OV_N.hru                   0.009854        0.009854
+# r__SLSOIL.hru                 -0.047976  -0.047976
+# r__SOL_AWC().sol              0.020943    0.020943
+# r__SOL_BD().sol               -0.213844    -0.213844
+# r__SOL_CRK.sol                0.031997   0.031997
+# r__SOL_K().sol                11.809810     11.809810
+# v__ALPHA_BF.gw                0.0825       0.0825
+# v__ALPHA_BNK.rte              -0.134182      -0.134182
+# v__CH_K1.sub                  2.590200    2.590200
+# v__CH_N1.sub                  0.015492      0.015492
+# v__EPCO.hru                   1.114267      1.114267
+# v__ESCO.hru                   1.039398       1.039398
+# v__GW_DELAY.gw                20.458456      20.458456
+# v__GWQMN.gw                   4.735065     4.735065
+# v__GW_REVAP.gw                0.267625        0.267625
+# v__LAT_TTIME.hru              78.209145    78.209145
+# v__REVAPMN.gw                 9.115908    9.115908
+# v__SFTMP.bsn                  -1.759150      -1.759150
+# v__SMFMN.bsn                  -5.178051     -5.178051
+# v__SMFMX.bsn                  3.900472    3.900472
+# v__SMTMP.bsn                  1.035750    1.035750
+# v__SNO50COV.bsn               0.428200     0.428200
+# v__SNOCOVMX.bsn               54.540001       54.540001
+# v__SURLAG.bsn                 0.417541      0.417541
+# 
+# // other fixed, not sure now
+# 
+# // r__CH_N2.rte        -0.061300  -0.061300
+# // r__CN2.mgt         -0.093000    -0.093000
+# // r__OV_N.hru         0.109100   0.109100
+# // r__SOL_K().sol      9.989500  9.989500
+# // v__ALPHA_BF.gw      0.0825       0.0825
+# // v__ALPHA_BNK.rte    0.009150     0.009150
+# // v__EPCO.hru         1.112608     1.112608
+# // v__ESCO.hru         1.034971     1.034971
+# // v__GW_DELAY.gw      19.324812    19.324812
+# // v__GWQMN.gw        3.222500   3.222500
+# // v__GW_REVAP.gw       0.193750    0.193750
+# // v__REVAPMN.gw       6.563000   6.563000
+# // v__SFTMP.bsn       -2.3         -2.3
+# // v__SMTMP.bsn        1.712393     1.712393
+# // v__SNO50COV.bsn     0.604334     0.604334
+# // V__SNOCOVMX.bsn     60.232777    60.232777
+# 
+# 
+# 
+# // iter 1 pre
+#                           a__RCHRG_DP.gw       -0.022854     0.031438
+#                             r__CANMX.hru       -0.260820     0.013070
+#                             r__CH_N2.rte       -0.191980     0.069380
+#                               r__CN2.mgt       -0.164520    -0.021480
+#                              r__OV_N.hru        0.004520     0.213680
+#                            r__SLSOIL.hru       -0.066445     0.100695
+#                         r__SOL_AWC().sol       -0.037046     0.088880
+#                          r__SOL_BD().sol       -0.268695     0.010445
+#                           r__SOL_CRK.sol       -0.117195     0.060945
+#                           r__SOL_K().sol        4.743650    15.235350
+#                         v__ALPHA_BNK.rte       -0.291337     0.309637
+#                             v__CH_K1.sub        1.484242     4.453258
+#                             v__CH_N1.sub        0.014573     0.023719
+#                           v__EPCO.hru           0.631344       1.295156
+#                           v__ESCO.hru           0.826256       1.079244
+#                           v__GW_DELAY.gw        5.469163       55.853340
+#                              v__GWQMN.gw        0.832981     5.612019
+#                           v__GW_REVAP.gw        0.050000       0.300000
+#                         v__LAT_TTIME.hru       33.809841   101.440163
+#                            v__REVAPMN.gw        2.343318    10.782681
+#                           v__SFTMP.bsn         -1.800000      2.500000
+#                           v__SMFMN.bsn       -8.863034    10.379701
+#                           v__SMFMX.bsn       -0.388039    13.204706
+#                           v__SMTMP.bsn         0.100000       2.000000
+#                           v__SNO50COV.bsn      0.400000       0.800000
+#                           v__SNOCOVMX.bsn      40.000000      80.000000
+#                            v__SURLAG.bsn      -11.250946    12.250538
+# 
+# // temp
