@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+FAST_sensitivity.png
+data/
+demo_*
+prec_obs_sim_plot.ipynb
+resteps.ipynb
+swat_21347e0a-d724-11ea-8ddc-54e1ad562245/
+tmp.conv
+
