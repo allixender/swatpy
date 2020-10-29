@@ -1,0 +1,3 @@
+- python setup.py sdist bdist_wheel
+- https://pypi.org/manage/projects/
+- conda install -c conda-forge twine

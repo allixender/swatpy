@@ -10,17 +10,17 @@ import numpy as np
 import pandas as pd
 
 import chardet
-import pyswat
+import swatpy
 
-from pyswat import FileEdit
+from swatpy import FileEdit
 
 # bsnManipulator
-# import pyswat.FileEdit.gwManipulator
-# import pyswat.FileEdit.mgtManipulator
-# import pyswat.FileEdit.subManipulator
-# import pyswat.FileEdit.hruManipulator
-# import pyswat.FileEdit.solManipulator
-# import pyswat.FileEdit.rteManipulator
+# import swatpy.FileEdit.gwManipulator
+# import swatpy.FileEdit.mgtManipulator
+# import swatpy.FileEdit.subManipulator
+# import swatpy.FileEdit.hruManipulator
+# import swatpy.FileEdit.solManipulator
+# import swatpy.FileEdit.rteManipulator
 
 allowed_endings = ["bsn", "gw", "mgt", "sub", "hru", "sol", "rte"]
 
@@ -55,7 +55,7 @@ def parse(infile, outfile):
     enc = guess_text_encoding(infile)
 
     with open(infile, "r", encoding=enc) as f:
-        line_counter=0
+        line_counter = 0
         work_pars = []
 
         for line in f.readlines():
@@ -93,7 +93,7 @@ def parse(infile, outfile):
                         )
 
                         try:
-                            field_list = trim_u.split(' ')[0].strip().split("__")
+                            field_list = trim_u.split(" ")[0].strip().split("__")
                             how = field_list[0]
                             param_field = field_list[1]
                             manip_ext = field_list[2]
@@ -108,27 +108,33 @@ def parse(infile, outfile):
                             if len(field_list) > 7:
                                 slope = field_list[7]
 
-                            if not how in ['v', 'a', 'r']:
-                                print(f"error, line {line_counter} not correct modifier {how} not in ['v', 'a', 'r']")
+                            if not how in ["v", "a", "r"]:
+                                print(
+                                    f"error, line {line_counter} not correct modifier {how} not in ['v', 'a', 'r']"
+                                )
                                 continue
                             if not param_field in paramlist:
-                                print(f"error, line {line_counter} param_field {param_field} not known")
+                                print(
+                                    f"error, line {line_counter} param_field {param_field} not known"
+                                )
                                 continue
                             if not manip_ext in allowed_endings:
-                                print(f"error, line {line_counter} file type {manip_ext} not in {allowed_endings}")
+                                print(
+                                    f"error, line {line_counter} file type {manip_ext} not in {allowed_endings}"
+                                )
                                 continue
 
                             already_used_params = [t[0] for t in work_pars]
 
-
-
                             if not param_field in already_used_params:
                                 work_pars.append((param_field, trim_u))
                             else:
-                                print(f"error, line {line_counter} param field {param_field} already used before")
+                                print(
+                                    f"error, line {line_counter} param field {param_field} already used before"
+                                )
                                 continue
                         except Exception as e:
-                            print('error parsing')
+                            print("error parsing")
                             print(trim_u)
                             print(repr(e))
                     else:
@@ -137,11 +143,9 @@ def parse(infile, outfile):
                 # print(trim_u)
         for t in work_pars:
             print(t)
-        with open(outfile, 'w', encoding=enc) as outf:
+        with open(outfile, "w", encoding=enc) as outf:
             for t in work_pars:
                 outf.write(t[1] + "\n")
-
-
 
 
 def main(argv):

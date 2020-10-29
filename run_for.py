@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 
 import spotpy
-from pyswat import SimManage, ReadOut, FileEdit
+from swatpy import SimManage, ReadOut, FileEdit
 
 import logging
 import datetime
@@ -42,7 +42,7 @@ def update_SLSOIL(mpath):
     """
     Instruction to edit SLSOIL
 
-	The variable "SLSOIL" within hru table of project.mdb will be having a value of "0" by default. 
+	The variable "SLSOIL" within hru table of project.mdb will be having a value of "0" by default.
     This column needs to be replaced with the values in the variable "SLSUBBSN".
     """
 
@@ -76,8 +76,8 @@ def update_LAT_TTIME(mpath):
     """
     Instruction to edit LAT_TTIME
 
-	The variable "LAT_TTIME" will also be having a default value of "0". 
-    This needs to be replaced with the values of "LAT_TTIME" estimated using the equation provided in SWAT theoretical documentation. 
+	The variable "LAT_TTIME" will also be having a default value of "0".
+    This needs to be replaced with the values of "LAT_TTIME" estimated using the equation provided in SWAT theoretical documentation.
     - LAT_TTIME   (TTlag ): Lateral flow travel time (days)
     - SLSOIL   (Lhill): Hillslope length (m)
     - SOL_K   Ksat: Saturated hydraulic conductivity (mm/hr)
@@ -213,7 +213,7 @@ class swat_callib_setup(object):
         logger.info(f"this iteration's parameters:")
         logger.info(parameters)
         # logger.info(self.params[0].name)
-    
+
         # logger.info(parameters['v__SFTMP__bsn'])
 
         how_apply = {"v": "s", "r": "*", "a": "+"}
@@ -322,7 +322,6 @@ class swat_callib_setup(object):
 
 def model_callib(model, mpath, param_file, sampler, repetitions, parallel):
 
-
     target_dir = f"/tmp/callib_{model}_{sampler}_{uuid.uuid4()}"
     # target_dir = os.path.join(os.getcwd(), f"callib_{model}_{sampler}_{uuid.uuid4()}")
 
@@ -363,7 +362,7 @@ def model_callib(model, mpath, param_file, sampler, repetitions, parallel):
         "spot_setup": spot_setup,
         "parallel": parallel,
         "dbname": f"{model}_{sampler}_{repetitions}_pid{os.getpid()}",
-        "dbformat": dbformat
+        "dbformat": dbformat,
     }
     spot_sampler = None
 
@@ -536,7 +535,7 @@ def main(argv):
         param_file=param_file,
         sampler=sampler,
         repetitions=repetitions,
-        parallel=parallel
+        parallel=parallel,
     )
 
 
