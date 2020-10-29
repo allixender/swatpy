@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.1.5"
+VERSION = "0.1.6"
 DESCRIPTION = "A Python package to run, control/manipulate and analyse SWAT2012 models"
-LONG_DESCRIPTION = "a set of python modules to work with the Soil and Water Assessment Tool (SWAT2012), including model run, programmatic config edits, simulation readouts and calibration with the fantastic SPOTPY package"
+LONG_DESCRIPTION = "a set of python modules to work with the Soil and Water Assessment Tool (SWAT2012), including model run, programmatic config edits, simulation readouts and calibration with the fantastic SPOTPY package - more info to come!"
 
 # Setting up
 setup(
@@ -23,11 +23,17 @@ setup(
     # needs to be installed along with your package. Eg: 'caer'
     keywords=["python", "SWAT", "hydrology"],
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
+        "Environment :: Console",
         "Intended Audience :: Education",
+        "Intended Audience :: Science/Research",
+        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Operating System :: MacOS :: MacOS X",
-        "Operating System :: Linux :: Linux",
+        "Operating System :: POSIX",
+        "Operating System :: Unix",
+        "Operating System :: POSIX :: Linux",
         "Operating System :: Microsoft :: Windows",
+        "Topic :: Scientific/Engineering :: GIS",
     ],
 )
