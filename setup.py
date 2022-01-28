@@ -11,6 +11,7 @@ setup(
     version=VERSION,
     author="Alexander Kmoch",
     author_email="<alexander.kmoch@ut.ee>",
+    url="https://github.com/allixender/swatpy",
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
