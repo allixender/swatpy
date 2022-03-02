@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.1.6"
+VERSION = "0.2.0"
 DESCRIPTION = "A Python package to run, control/manipulate and analyse SWAT2012 models"
-LONG_DESCRIPTION = "a set of python modules to work with the Soil and Water Assessment Tool (SWAT2012), including model run, programmatic config edits, simulation readouts and calibration with the fantastic SPOTPY package - more info to come!"
+LONG_DESCRIPTION = "a set of python modules to work with the Soil and Water Assessment Tool (SWAT2012), including model run, programmatic config edits, simulation readouts and calibration with the fantastic SPOTPY package."
 
 # Setting up
 setup(
