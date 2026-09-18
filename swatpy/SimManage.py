@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from pathlib import Path
 import uuid
 import shutil
@@ -14,6 +13,22 @@ from .FileEdit import fileCioManipulator, bsnManipulator, gwManipulator, solMani
 from .FileEdit import hruManipulator, rteManipulator, mgtManipulator, subManipulator
 
 
+# calibration parameter names: <how>__<PARAM>__<ext>[__<hydgrp>__<soltext>__<landuse>__<subbsn>__<slope>]
+# with how v (replace), r (relative, x * (1 + value)) or a (add), as converted from SWAT-CUP par_inf files
+CHANGE_HOW = {"v": "s", "r": "*", "a": "+"}
+
+
+def parseParameterName(name):
+    """Split a calibration parameter name, e.g. "r__CN2__mgt" -> ("*", "CN2", "mgt", []).
+
+    The SWAT-CUP style qualifiers after the file extension are returned but not evaluated.
+    """
+    fields = name.strip().split("__")
+    if len(fields) < 3 or fields[0] not in CHANGE_HOW:
+        raise ValueError(f"{name!r} is not a <v|r|a>__<PARAM>__<ext> parameter name")
+    return CHANGE_HOW[fields[0]], fields[1], fields[2], fields[3:]
+
+
 class SwatModel(object):
 
     def __init__(self):
@@ -26,7 +41,7 @@ class SwatModel(object):
         self.last_run_logs = ''
         self.fileManipulators = None
 
-    
+
     def is_runnable(self):
         is_runnable = 0
 
@@ -49,17 +64,17 @@ class SwatModel(object):
                         print(f"{elem} is executable")
                         self.swat_exec = str(elem)
                         is_runnable = 1
-        
-        return is_runnable
-    
 
+        return is_runnable
+
+
+    @staticmethod
     def guess_model_text_encoding(model_dir):
-        f = open(os.path.join(model_dir, 'file.cio'), 'rb')
         detector = chardet.UniversalDetector()
         detector.reset()
-        for line in f:
-            detector.feed(line)
-        f.close()
+        with open(os.path.join(model_dir, 'file.cio'), 'rb') as f:
+            for line in f:
+                detector.feed(line)
         detector.close()
         print(detector.result)
         enc = detector.result['encoding']
@@ -77,11 +92,11 @@ class SwatModel(object):
             return enc
 
 
-    # FACTORY method, no self
-    # pylint: disable=no-self-argument
+    # FACTORY method
+    @staticmethod
     def initFromTxtInOut(txtInOut, copy=None, target_dir=None, swat_version='2012', force=False):
         """initialise the SwatModel working object from loading a SWAT 2012 TxtInOut directory
-        
+
         Keyword arguments:
         argument -- description
         Return: return_description
@@ -96,15 +111,15 @@ class SwatModel(object):
         }
 
         if copy is None:
-            raise ValueError("""Warning, you must explicitely state if you want to create a copy of the 
+            raise ValueError("""Warning, you must explicitely state if you want to create a copy of the
             TxtInOut (copy=True) dir or directly work in the exisiting folder (copy=False).
             Aborting!""")
-        
+
         if copy == True:
             if not target_dir is None and target_dir != '':
                 # check if target_dir exists and/or is empty
                 test_path = Path(target_dir)
-                
+
                 if test_path.is_dir():
                     print(f"{test_path} exists ... ")
                     is_empty = not any(test_path.iterdir())
@@ -143,29 +158,29 @@ class SwatModel(object):
                     shutil.copytree(Path(txtInOut), test_path)
                     print('creating working directory: ' + os.path.abspath(test_path))
                     config['working_dir'] = str(os.path.abspath(test_path))
-                    
+
                 except Exception as e:
                     print(e)
                     traceback.print_exc(file=sys.stdout)
                     raise ValueError('Error copying.')
-                    
+
         else:
             if force == True:
                 # init here
                 # test if .swatmodel.json exists
                 config['working_dir'] = str(Path(txtInOut).resolve().absolute())
-                
+
             else:
                 print("non-copy init without force confirm, aborting!")
                 raise ValueError("non-copy init without force confirm, aborting!")
-            
+
         # check if referenced TxtInOut directory exists
-        # check if target_dir is set 
+        # check if target_dir is set
         # copy True then target_dir must be different from TxtInOut folder
         # create target_dir, shutil copy TxtInOut content over
         # check if SWAT executable in path
         # only if user is certain then swatmodel can be initialised in origin TxtInOut folder
-        
+
         model = SwatModel()
         model.working_dir = config['working_dir']
         # metadata obj is for flexibility and should not be changed really
@@ -173,10 +188,10 @@ class SwatModel(object):
         # executable should be discovered or provided
         model.swat_exec = config['swat_exec']
         model.swat_version = config['swat_version']
-        
+
         config['model_text_encoding'] = SwatModel.guess_model_text_encoding(model.working_dir)
         model.model_text_encoding = config['model_text_encoding']
-        
+
         model.is_runnable()
 
         # TODO write self.metadata_obj = os.path.join(working_dir, '.swatmodel.json')
@@ -185,16 +200,16 @@ class SwatModel(object):
 
         return model
 
-    # FACTORY method, no self
-    # pylint: disable=no-self-argument
+    # FACTORY method
+    @staticmethod
     def loadModelFromDirectory(target_dir):
         """initialise the SwatModel working object from the metadata file from existing working directory
-        
+
         Keyword arguments:
         argument -- description
         Return: return_description
         """
-        
+
         config = {
             'swat_version' : '2012',
             'working_dir' : 'swat2012_047fd78',
@@ -206,7 +221,7 @@ class SwatModel(object):
         if not target_dir is None and target_dir != '':
             # check if src dir exists and is not empty
             test_path = Path(target_dir)
-            
+
             if test_path.is_dir():
                 print(f"{test_path} exists ... ")
 
@@ -214,7 +229,7 @@ class SwatModel(object):
                     with open(os.path.join(Path(test_path), '.swatmodel.json'), 'r') as fp:
                         config_load = json.load(fp)
                         # config_load = json.loads(js)
-                    
+
                     for key in config_load.keys():
                         config.update({ key: config_load[key]})
 
@@ -224,6 +239,8 @@ class SwatModel(object):
                         print(e)
                         traceback.print_exc(file=sys.stdout)
                         raise ValueError("error loading config, aborting!")
+            else:
+                raise ValueError(f"{target_dir} is not a directory, aborting!")
 
         model = SwatModel()
         model.working_dir = config['working_dir']
@@ -232,46 +249,38 @@ class SwatModel(object):
         # executable should be discovered or provided
         model.swat_exec = config['swat_exec']
         model.swat_version = config['swat_version']
-        
+
         config['model_text_encoding'] = SwatModel.guess_model_text_encoding(model.working_dir)
         model.model_text_encoding = config['model_text_encoding']
-        
+
         model.is_runnable()
 
         # TODO write self.metadata_obj = os.path.join(working_dir, '.swatmodel.json')
         with open(os.path.join(model.working_dir, '.swatmodel.json'), 'w') as fp:
             json.dump(config, fp)
- 
+
         return model
-    
+
 
     def run(self, capture_logs=True, silent=False):
 
         # needs metadata swat exec and working_dir
-
-        curdir = os.getcwd()
-
-        # subprocess.call / Popen swat_exec, check if return val is 0 or not
-        # yield logs?
+        # SWAT reads file.cio from the current directory, so the process runs inside working_dir
+        returncode = None
+        logs = []
         try:
-            os.chdir(self.working_dir)
-            
-            logs = []
-            o = subprocess.Popen([os.path.join(self.working_dir, self.swat_exec)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            
-            while o.poll() is None:
-                for b_line in o.stdout:
-                    line = b_line.decode().strip()
-                    # sys.stdout.write(line)
-                    if not silent:
-                        print(line)
-                    if capture_logs:
-                        logs.append(line.strip())
-            
-            if o.returncode == 0:
-                self.last_run_succesful = True
-            else:
-                self.last_run_succesful = False
+            o = subprocess.Popen([os.path.join(self.working_dir, self.swat_exec)], cwd=self.working_dir,
+                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+            for b_line in o.stdout:
+                line = b_line.decode(errors='replace').strip()
+                if not silent:
+                    print(line)
+                if capture_logs:
+                    logs.append(line)
+            returncode = o.wait()
+
+            self.last_run_succesful = returncode == 0
 
             if capture_logs:
                 self.last_run_logs = '\n'.join(logs)
@@ -282,42 +291,40 @@ class SwatModel(object):
             self.last_run_succesful = False
             print(repr(e))
             traceback.print_exc(file=sys.stdout)
-            self.last_run_logs(repr(e))
-        finally:
-            os.chdir(curdir)
+            self.last_run_logs = '\n'.join(logs + [repr(e)])
 
-        return o.returncode
+        return returncode
 
 
     def read_output(self, out_types):
-        # output.rch, output.sub ... 
+        # output.rch, output.sub ...
         # maybe as tuple (rch, field_x), (rch, field_y)
         # return as numpy/pandas times series?
 
         return np.array([1, 3, 5])
-    
+
 
     # serialize the mode lconfig from all input files and the model metadata into avro record
     # for binary transport (e.g. network, archive, database ...)
     def toAvro(self):
         # make the whole thing into mem and avro codec and return serialized binary object blob
-        
+
         # including .swatmodel.json metadata
         pass
 
 
-    # FACTORY method, no self
-    # pylint: disable=no-self-argument
+    # FACTORY method
+    @staticmethod
     def fromAvro(avro_model, target_dir):
         # deserialise avro_model into target path, and then init/load from metadata
 
         model = SwatModel.loadModelFromDirectory( target_dir)
-        
+
         return model
-    
+
 
     def getFileManipulators(self, force_update=False):
-        
+
         if self.fileManipulators is None or force_update == True:
 
             files=os.listdir(self.working_dir)
@@ -346,8 +353,8 @@ class SwatModel(object):
             solfiles = [i for i in files if i.endswith(".sol")]
             sol = []
             for i in solfiles:
-                if solManipulator(i,[],self.working_dir).landuse != "URBN":
-                    sol.append(solManipulator(i, ["SOL_K","SAND", "CLAY", "SOL_CBN", "SOL_BD", "SOL_AWC", "SOL_CRK"], self.working_dir, self.model_text_encoding))
+                if solManipulator(i, [], self.working_dir, self.model_text_encoding).landuse != "URBN":
+                    sol.append(solManipulator(i, ["SOL_K","SAND", "SILT", "CLAY", "ROCK", "SOL_CBN", "SOL_BD", "SOL_AWC", "SOL_CRK", "SOL_ZMX"], self.working_dir, self.model_text_encoding))
             manipulators["sol"] = sol
 
             ## here all parameters from the hru-file are assigned in the dictionary for calibration
@@ -383,11 +390,25 @@ class SwatModel(object):
 
         # always return
         return self.fileManipulators
-    
+
 
     def reloadFileManipulators(self):
         return self.getFileManipulators(force_update=True)
-    
+
+
+    def setParameter(self, name, value):
+        """Apply a calibration parameter (see parseParameterName) to all files of its type.
+
+        Changes are relative to the values read when the file manipulators were created.
+        """
+        changeHow, param_field, manip_ext, qualifiers = parseParameterName(name)
+        manipulators = self.getFileManipulators()
+        if manip_ext not in manipulators:
+            raise KeyError(f"{name}: unknown file type {manip_ext} (known: {list(manipulators)})")
+        for m in manipulators[manip_ext]:
+            m.setChangePar(param_field, value, changeHow)
+            m.finishChangePar()
+
 
     def enrichModelMeta(self, verbose=True, update_meta=True):
 
@@ -404,19 +425,19 @@ class SwatModel(object):
         self.beginning_year_simulation = int(manipulators['fileCio'][0].parValue['IYR'][0])
         self.outprint_code = int(manipulators['fileCio'][0].parValue['IPRINT'][0]) # (0 month, 1 day, 2 year)
         self.n_years_skip = int(manipulators['fileCio'][0].parValue['NYSKIP'][0])
-        
+
         from datetime import datetime as dt
 
         start_load_year = self.beginning_year_simulation + self.n_years_skip
-        last_year = self.beginning_year_simulation + self.n_years_simulated
+        last_year = self.beginning_year_simulation + self.n_years_simulated - 1
 
         start = dt(self.beginning_year_simulation,1,1)
         start_load = dt(start_load_year,1,1)
         end_sim = dt(last_year,12,31)
 
         self.n_days_skip = (start_load - start).days
-        self.readout_years = last_year - start_load_year
-        self.readout_days = (end_sim - start_load).days
+        self.readout_years = last_year - start_load_year + 1
+        self.readout_days = (end_sim - start_load).days + 1
 
         if verbose == True:
             print(f"subs/rch {self.n_sub_basins}, number of HRU {self.n_hru}")
@@ -445,7 +466,7 @@ class SwatModel(object):
             'readout_days' : self.readout_days
         }
 
-        
+
         if update_meta == True:
             try:
                 with open(os.path.join(config['working_dir'], '.swatmodel.json'), 'w') as fp:

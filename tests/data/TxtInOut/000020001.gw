@@ -1,0 +1,17 @@
+ .gw file Watershed HRU:3 Subbasin:2 HRU:3 Luse:FRST Soil: SOILB Slope: 0-9999 9/18/2026 12:00:00 AM ArcSWAT 2012.10_0.14
+         2.25000    | SHALLST : synthetic test value
+         3.25000    | DEEPST : synthetic test value
+         4.25000    | GW_DELAY : synthetic test value
+         5.25000    | ALPHA_BF : synthetic test value
+         6.25000    | GWQMN : synthetic test value
+         7.25000    | GW_REVAP : synthetic test value
+         8.25000    | REVAPMN : synthetic test value
+         9.25000    | RCHRG_DP : synthetic test value
+        10.25000    | GWHT : synthetic test value
+        11.25000    | GW_SPYLD : synthetic test value
+        12.25000    | SHALLST_N : synthetic test value
+        13.25000    | GWSOLP : synthetic test value
+        14.25000    | HLIFE_NGW : synthetic test value
+        15.25000    | LAT_ORGN : synthetic test value
+        16.25000    | LAT_ORGP : synthetic test value
+        17.25000    | ALPHA_BF_D : synthetic test value

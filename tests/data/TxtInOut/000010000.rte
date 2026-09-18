@@ -1,0 +1,25 @@
+ .rte file Subbasin: 1 9/18/2026 12:00:00 AM ArcSWAT 2012.10_0.14
+        2.2500    | CHW2 : synthetic test value
+        3.2500    | CHD : synthetic test value
+      4.250000    | CH_S2 : synthetic test value
+        5.2500    | CH_L2 : synthetic test value
+      6.250000    | CH_N2 : synthetic test value
+        7.2500    | CH_K2 : synthetic test value
+        8.2500    | CH_COV1 : synthetic test value
+        9.2500    | CH_COV2 : synthetic test value
+       10.2500    | CH_WDR : synthetic test value
+       11.2500    | ALPHA_BNK : synthetic test value
+        12.250    | ICANAL : synthetic test value
+        13.250    | CH_ONCO : synthetic test value
+        14.250    | CH_OPCO : synthetic test value
+        15.250    | CH_SIDE : synthetic test value
+        16.250    | CH_BNK_BD : synthetic test value
+        17.250    | CH_BED_BD : synthetic test value
+        18.250    | CH_BNK_KD : synthetic test value
+        19.250    | CH_BED_KD : synthetic test value
+        20.250    | CH_BNK_D50 : synthetic test value
+        21.250    | CH_BED_D50 : synthetic test value
+        22.250    | CH_BNK_TC : synthetic test value
+        23.250    | CH_BED_TC : synthetic test value
+    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000    0.000
+             5    | CH_EQ : synthetic test value

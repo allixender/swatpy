@@ -1,0 +1,2 @@
+# fixed-width SWAT test fixtures, compared byte by byte
+tests/data/** -text

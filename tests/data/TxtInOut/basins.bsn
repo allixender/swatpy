@@ -1,0 +1,131 @@
+Basin data           .bsn file 9/18/2026 12:00:00 AM ArcSWAT 2012.10_0.14
+Section 2
+Section 3
+          4.2500    | SFTMP : synthetic test value
+          5.2500    | SMTMP : synthetic test value
+          6.2500    | SMFMX : synthetic test value
+          7.2500    | SMFMN : synthetic test value
+          8.2500    | TIMP : synthetic test value
+          9.2500    | SNOCOVMX : synthetic test value
+         10.2500    | SNO50COV : synthetic test value
+               1    | IPET : synthetic test value
+Section 12
+         13.2500    | ESCO : synthetic test value
+         14.2500    | EPCO : synthetic test value
+         15.2500    | EVLAI : synthetic test value
+         16.2500    | FFCB : synthetic test value
+Section 17
+               8    | IEVENT : synthetic test value
+               9    | ICRK : synthetic test value
+         20.2500    | SURLAG : synthetic test value
+         21.2500    | ADJ_PKR : synthetic test value
+         22.2500    | PRF_BSN : synthetic test value
+       23.250000    | SPCON : synthetic test value
+         24.2500    | SPEXP : synthetic test value
+Section 25
+         26.2500    | RCN : synthetic test value
+       27.250000    | CMN : synthetic test value
+         28.2500    | N_UPDIS : synthetic test value
+         29.2500    | P_UPDIS : synthetic test value
+         30.2500    | NPERCO : synthetic test value
+         31.2500    | PPERCO : synthetic test value
+         32.2500    | PHOSKD : synthetic test value
+         33.2500    | PSP : synthetic test value
+         34.2500    | RSDCO : synthetic test value
+Section 35
+         36.2500    | PERCOP : synthetic test value
+Section 37
+               8    | ISUBWQ : synthetic test value
+Section 39
+         40.2500    | WDPQ : synthetic test value
+         41.2500    | WGPQ : synthetic test value
+         42.2500    | WDLPQ : synthetic test value
+         43.2500    | WGLPQ : synthetic test value
+         44.2500    | WDPS : synthetic test value
+         45.2500    | WGPS : synthetic test value
+         46.2500    | WDLPS : synthetic test value
+         47.2500    | WGLPS : synthetic test value
+         48.2500    | BACTKDQ : synthetic test value
+         49.2500    | THBACT : synthetic test value
+         50.2500    | WOF_P : synthetic test value
+         51.2500    | WOF_LP : synthetic test value
+         52.2500    | WDPF : synthetic test value
+         53.2500    | WGPF : synthetic test value
+         54.2500    | WDLPF : synthetic test value
+         55.2500    | WGLPF : synthetic test value
+               6    | ISED_DET : synthetic test value
+Section 57
+               8    | IRTE : synthetic test value
+         59.2500    | MSK_CO1 : synthetic test value
+         60.2500    | MSK_CO2 : synthetic test value
+         61.2500    | MSK_X : synthetic test value
+               2    | IDEG : synthetic test value
+               3    | IWQ : synthetic test value
+Section 64
+         65.2500    | TRNSRCH : synthetic test value
+         66.2500    | EVRCH : synthetic test value
+               7    | IRTPEST : synthetic test value
+               8    | ICN : synthetic test value
+         69.2500    | CNCOEF : synthetic test value
+         70.2500    | CDN : synthetic test value
+         71.2500    | SDNCO : synthetic test value
+         72.2500    | BACT_SWF : synthetic test value
+         73.2500    | BACTMX : synthetic test value
+         74.2500    | BACTMINLP : synthetic test value
+         75.2500    | BACTMINP : synthetic test value
+         76.2500    | WDLPRCH : synthetic test value
+         77.2500    | WDPRCH : synthetic test value
+         78.2500    | WDLPRES : synthetic test value
+         79.2500    | WDPRES : synthetic test value
+         80.2500    | TB_ADJ : synthetic test value
+               1    | DEPIMP_BSN : synthetic test value
+         82.2500    | DDRAIN_BSN : synthetic test value
+         83.2500    | TDRAIN_BSN : synthetic test value
+         84.2500    | GDRAIN_BSN : synthetic test value
+       85.250000    | CN_FROZ : synthetic test value
+         86.2500    | DORM_HR : synthetic test value
+         87.2500    | SMXCO : synthetic test value
+         88.2500    | FIXCO : synthetic test value
+         89.2500    | NFIXMX : synthetic test value
+         90.2500    | ANION_EXCL_BSN : synthetic test value
+         91.2500    | CH_ONCO_BSN : synthetic test value
+         92.2500    | CH_OPCO_BSN : synthetic test value
+         93.2500    | HLIFE_NGW_BSN : synthetic test value
+         94.2500    | RCN_SUB_BSN : synthetic test value
+         95.2500    | BC1_BSN : synthetic test value
+         96.2500    | BC2_BSN : synthetic test value
+         97.2500    | BC3_BSN : synthetic test value
+         98.2500    | BC4_BSN : synthetic test value
+         99.2500    | DECR_MIN : synthetic test value
+        100.2500    | ICFAC : synthetic test value
+        101.2500    | RSD_COVCO : synthetic test value
+        102.2500    | VCRIT : synthetic test value
+               3    | CSWAT : synthetic test value
+        104.2500    | RES_STLR_CO : synthetic test value
+        105.2500    | BFLO_DIST : synthetic test value
+               6    | IUH : synthetic test value
+        107.2500    | UHALPHA : synthetic test value
+Section 108
+Section 109
+Section 110
+        111.2500    | EROS_SPL : synthetic test value
+        112.2500    | RILL_MULT : synthetic test value
+        113.2500    | EROS_EXPO : synthetic test value
+        114.2500    | SUBD_CHSED : synthetic test value
+        115.2500    | C_FACTOR : synthetic test value
+          116.25    | CH_D50 : synthetic test value
+        117.2500    | SIG_G : synthetic test value
+         118.250    | RE_BSN : synthetic test value
+         119.250    | SDRAIN_BSN : synthetic test value
+         120.250    | DRAIN_CO_BSN : synthetic test value
+        121.2500    | PC_BSN : synthetic test value
+         122.250    | LATKSATF_BSN : synthetic test value
+               3    | ITDRN : synthetic test value
+               4    | IWTDN : synthetic test value
+               5    | SOL_P_MODEL : synthetic test value
+         126.250    | IABSTR : synthetic test value
+               7    | IATMODEP : synthetic test value
+               8    | R2ADJ_BSN : synthetic test value
+               9    | SSTMAXD_BSN : synthetic test value
+               0    | ISMAX : synthetic test value
+               1    | IROUTUNIT : synthetic test value

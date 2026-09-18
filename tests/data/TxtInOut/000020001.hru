@@ -1,0 +1,45 @@
+ .hru file Watershed HRU:3 Subbasin:2 HRU:3 Luse:FRST Soil: SOILB Slope: 0-9999 9/18/2026 12:00:00 AM ArcSWAT 2012.10_0.14
+       1.0000000    | HRU_FR : synthetic test value
+          3.2500    | SLSUBBSN : synthetic test value
+          4.2500    | HRU_SLP : synthetic test value
+          5.2500    | OV_N : synthetic test value
+          6.2500    | LAT_TTIME : synthetic test value
+          7.2500    | LAT_SED : synthetic test value
+          8.2500    | SLSOIL : synthetic test value
+          9.2500    | CANMX : synthetic test value
+         10.2500    | ESCO : synthetic test value
+         11.2500    | EPCO : synthetic test value
+         12.2500    | RSDIN : synthetic test value
+         13.2500    | ERORGN : synthetic test value
+         14.2500    | ERORGP : synthetic test value
+         15.2500    | POT_FR : synthetic test value
+         16.2500    | FLD_FR : synthetic test value
+         17.2500    | RIP_FR : synthetic test value
+Special HRU: Pothole
+         19.2500    | POT_TILE : synthetic test value
+         20.2500    | POT_VOLX : synthetic test value
+         21.2500    | POT_VOL : synthetic test value
+         22.2500    | POT_NSED : synthetic test value
+         23.2500    | POT_NO3L : synthetic test value
+               4    | DEP_IMP : synthetic test value
+
+
+
+           28.25    | EVPOT : synthetic test value
+           29.25    | DIS_STREAM : synthetic test value
+           30.25    | CF : synthetic test value
+           31.25    | CFH : synthetic test value
+         32.2500    | CFDEC : synthetic test value
+           33.25    | SED_CON : synthetic test value
+           34.25    | ORGN_CON : synthetic test value
+           35.25    | ORGP_CON : synthetic test value
+           36.25    | SOLN_CON : synthetic test value
+           37.25    | SOLP_CON : synthetic test value
+           38.25    | POT_SOLP : synthetic test value
+           39.25    | POT_K : synthetic test value
+           40.25    | N_REDUC : synthetic test value
+           41.25    | N_LAG : synthetic test value
+           42.25    | N_LN : synthetic test value
+           43.25    | N_LNCO : synthetic test value
+           44.25    | SURLAG : synthetic test value
+           45.25    | R2ADJ : synthetic test value

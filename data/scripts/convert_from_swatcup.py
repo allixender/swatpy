@@ -7,7 +7,6 @@ import getopt
 import traceback
 
 import numpy as np
-import pandas as pd
 
 import chardet
 import swatpy
@@ -75,9 +74,9 @@ def parse(infile, outfile):
                         if trim_u.startswith("V__"):
                             trim_u = trim_u.replace("V__", "v__", 1)
                         if trim_u.startswith("A__"):
-                            trim_u = trim_u.replace("A__", "v__", 1)
+                            trim_u = trim_u.replace("A__", "a__", 1)
                         if trim_u.startswith("R__"):
-                            trim_u = trim_u.replace("R__", "v__", 1)
+                            trim_u = trim_u.replace("R__", "r__", 1)
 
                         if trim_u.find("()") > -1:
                             trim_u = trim_u.replace("()", "")
