@@ -50,7 +50,17 @@
 """
 
 import os
+import re
 import numpy as np
+
+
+def headerValue(header, key):
+    # ArcSWAT header lines, e.g. " .hru file Watershed HRU:1 Subbasin:1 HRU:1 Luse:AGRL Soil: LREW03 ..."
+    # or " .rte file Subbasin: 1 11/27/2018 ..."
+    match = re.search(key + r":\s*(\S+)", header)
+    if match is None:
+        return None
+    return match.group(1)
 
 """
 __init__            connects instance with a single file;
@@ -64,9 +74,7 @@ initParValue        reads initial values from input files, these
                     (below called: "multi paramter problem")
 
 prepareChangePar    copies text of file to be changed and stored
-                    as the manipulated file later on;
-                    is automatically called after each file
-                    manipulation by "finishChangePar"
+                    as the manipulated file later on
 
 setChangePar        a dummy which just calls "setChangePar";
                     is intended to be overridden in case of
@@ -78,8 +86,9 @@ changePar           modifies a parameter according to a selected
                     of the text of the original file
 
 finishChangePar     overwrites file with the modified string;
-                    calls "prepareChangePar";
-                    resets the original file if called twice
+                    later changes of other parameters build on it
+
+resetFile           writes the original file content back
 
 
 Use subclasses as follows:
@@ -89,11 +98,11 @@ Use subclasses as follows:
         changeHow as string("+","*","s"))
     (3) f.finishChangePar()
     End Loop
-    (4) f.finishChangePar()
+    (4) f.resetFile()
 
-for repeated manipulation: step (1) should not be processed several times,
-otherwise step (4) won't work as supposed.
-Calling "f.finishChangePar() twice resets the original file
+Changes are always computed from the values read in step (1), so repeating
+step (2) for the same parameter does not accumulate. Changes of different
+parameters of the same file are all kept, also with step (3) in between.
 
 """
 
@@ -109,9 +118,9 @@ class InputFileManipulator(object):
         #		core_nr = str(int(os.environ['OMPI_COMM_WORLD_RANK'])) # +1 to prevent zero if necessary...
         #        except KeyError:
         #		core_nr = str(int(np.random.uniform(0,1000))) # if you run on windows
-        ffile = open(os.path.join(self.working_dir, self.filename), "r", encoding=self.file_enc)
-        self.textOld = ffile.readlines()
-        ffile.close()
+        # newline="" keeps the line endings of the file (ArcSWAT writes CRLF), also when writing back
+        with open(os.path.join(self.working_dir, self.filename), "r", encoding=self.file_enc, newline="") as ffile:
+            self.textOld = ffile.readlines()
         self.initParValue(parList)
         self.prepareChangePar()
 
@@ -125,6 +134,13 @@ class InputFileManipulator(object):
     def prepareChangePar(self):
         self.textNew = self.textOld[:]  # copy instead of new name allocation
 
+    # parameters not given in parList at construction time are read on first use
+    def ensureParValue(self, namePar):
+        if namePar not in self.parInfo:
+            raise KeyError(f"{namePar} is not a known parameter of {type(self).__name__} ({self.filename})")
+        if self.parValue.get(namePar) is None:
+            self.initParValue([namePar])
+
     # built to be overridden if one parameter exists several times in each file, e.g. for different soil layers
     def setChangePar(self, namePar, changePar, changeHow):
         self.changePar(namePar, changePar, changeHow)
@@ -137,6 +153,7 @@ class InputFileManipulator(object):
 
     def changePar(self, namePar, changePar, changeHow, offsetRow=0, offsetCol=0, index=0):
         # change initial parameter depending on chosen method
+        self.ensureParValue(namePar)
         changePar = float(changePar)
         if changeHow == "+":
             changedPar = self.parValue[namePar][index] + changePar
@@ -144,26 +161,32 @@ class InputFileManipulator(object):
             changedPar = self.parValue[namePar][index] + self.parValue[namePar][index] * changePar
         elif changeHow == "s":
             changedPar = changePar
+        else:
+            raise ValueError(f"changeHow must be one of '+', '*', 's', not {changeHow!r}")
         # insert changed Parameter in textNew
         row, col1, col2, dig = self.parInfo[namePar]
         row += offsetRow
         col1 += offsetCol
         col2 += offsetCol
         format = "%" + str(col2 - col1 + 1) + "." + str(dig) + "f"
-        self.textNew[row - 1] = (self.textNew[row - 1][:col1 - 1] +
+        # the field can reach up to the end of the line (e.g. SOL_ZMX), keep the line ending
+        line = self.textNew[row - 1]
+        body = line.rstrip("\r\n")
+        ending = line[len(body):]
+        self.textNew[row - 1] = (body[:col1 - 1].ljust(col1 - 1) +
                               (format % changedPar).rjust(col2 - col1 + 1) +
-                              self.textNew[row - 1][col2:])
+                              body[col2:] + ending)
 
     # save textNew in file (file ready for SWAT)
     def finishChangePar(self):
-        # try:
-        #	core_nr = str(int(os.environ['OMPI_COMM_WORLD_RANK'])) # +1 to prevent zero if necessary...
-        #  except KeyError:
-        #	core_nr = str(int(np.random.uniform(0,10000))) # if you run on windows
-        ffile = open(os.path.join(self.working_dir,  self.filename), "w", encoding=self.file_enc)
-        ffile.writelines(self.textNew)
-        ffile.close
+        # textNew is kept, so that the next parameter change of this file does not undo this one
+        with open(os.path.join(self.working_dir, self.filename), "w", encoding=self.file_enc, newline="") as ffile:
+            ffile.writelines(self.textNew)
+
+    # write back the original file content
+    def resetFile(self):
         self.prepareChangePar()
+        self.finishChangePar()
 
 
 """
@@ -461,8 +484,8 @@ class gwManipulator(InputFileManipulator):
                       "LAT_ORGP": None,
                       "ALPHA_BF_D": None}
         InputFileManipulator.__init__(self, filename, parList, working_dir, encoding)
-        self.landuse = self.textOld[0].split(" ")[7].split(":")[1]
-        self.subbasin = self.textOld[0].split(" ")[5].split(":")[1]
+        self.landuse = headerValue(self.textOld[0], "Luse")
+        self.subbasin = headerValue(self.textOld[0], "Subbasin")
 
 
 """
@@ -522,8 +545,8 @@ class mgtManipulator(InputFileManipulator):
                       "GDRAIN": None,
                       "NROT": None}
         InputFileManipulator.__init__(self, filename, parList, working_dir, encoding)
-        self.landuse = self.textOld[0].split(" ")[7].split(":")[1]
-        self.subbasin = self.textOld[0].split(" ")[5].split(":")[1]
+        self.landuse = headerValue(self.textOld[0], "Luse")
+        self.subbasin = headerValue(self.textOld[0], "Subbasin")
 
 
 """
@@ -651,15 +674,14 @@ class hruManipulator(InputFileManipulator):
                       "N_LNCO": None,
                       "SURLAG": None,
                       "R2ADJ": None}
+        parList = list(parList)
         if "HRU_FR" not in parList:
             parList.append("HRU_FR")
         InputFileManipulator.__init__(self, filename, parList, working_dir, encoding)
-        self.landuse = self.textOld[0].split(" ")[7].split(":")[1]
-        self.subbasin = self.textOld[0].split(" ")[5].split(":")[1]
-        zeros = "0"
-        zeros *= 5 - len(self.subbasin)
-        filename_subbasin = zeros + self.subbasin + "0000.sub"
-        self.hru_abs = subManipulator(filename_subbasin, ["SUB_KM"], working_dir).parValue["SUB_KM"][0]
+        self.landuse = headerValue(self.textOld[0], "Luse")
+        self.subbasin = headerValue(self.textOld[0], "Subbasin")
+        filename_subbasin = "%05d0000.sub" % int(self.subbasin)
+        self.hru_abs = subManipulator(filename_subbasin, ["SUB_KM"], working_dir, encoding).parValue["SUB_KM"][0]
         self.hru_abs *= self.parValue["HRU_FR"][0]
 
 
@@ -672,7 +694,7 @@ class solManipulator(InputFileManipulator):
     # information about parameters:
     # (1)row in file, (2) first and (3) last relevant column in row
     # and (4) digits
-    parInfo = {"SOL_ZMX": (4, 29, 36, 2),
+    parInfo = {"SOL_ZMX": (4, 28, 36, 2),
                "ANION_EXCL": (5, 51, 56, 4),
                "SOL_CRK": (6, 33, 38, 4),
                "SOL_Z": (8, 28, 39, 2),
@@ -724,6 +746,7 @@ class solManipulator(InputFileManipulator):
                           "SOL_PH": None,
                           "SOL_CAL": None}
 
+        parList = list(parList)
         if "SOL_Z" not in parList:
             parList.append("SOL_Z")
         if "SOL_AWC" not in parList:
@@ -734,7 +757,7 @@ class solManipulator(InputFileManipulator):
             parList.append("CLAY")
         InputFileManipulator.__init__(self, filename, parList, working_dir, encoding)
         self.calculateParValueMean(parList)
-        self.landuse = self.textOld[0].split(" ")[7].split(":")[1]
+        self.landuse = headerValue(self.textOld[0], "Luse")
 
         n_horizons = len(self.parValue["SOL_Z"])
         self.fieldCapacity = []
@@ -764,6 +787,7 @@ class solManipulator(InputFileManipulator):
 
     # overrides setChangePar: multiple soil layers have to be considered.
     def setChangePar(self, namePar, changePar, changeHow):
+        self.ensureParValue(namePar)
         n_par = len(self.parValue[namePar])
         for index in range(n_par):
             offsetCol = index * 12
@@ -773,6 +797,7 @@ class solManipulator(InputFileManipulator):
                 self.changePar(namePar, changePar, changeHow, 0, offsetCol, index)
 
     def setChangeParLay(self, namePar, changePar, changeHow, layer):
+        self.ensureParValue(namePar)
         index = layer
         n_par = len(self.parValue[namePar])
         offsetCol = index * 12
@@ -807,9 +832,9 @@ class solManipulationCorrection(solManipulator):
             correctionFactor = (100.0 - self.parValue["CLAY"][index]) / (
                         self.parValue["SILT"][index] + self.parValue["SAND"][index])
             offsetCol = index * 12
-            self.changePar("CLAY", 1.0, "*", 0, offsetCol, index)
-            self.changePar("SILT", correctionFactor, "*", 0, offsetCol, index)
-            self.changePar("SAND", correctionFactor, "*", 0, offsetCol, index)
+            # clay stays, silt and sand are scaled so that the three sum up to 100 %
+            self.changePar("SILT", self.parValue["SILT"][index] * correctionFactor, "s", 0, offsetCol, index)
+            self.changePar("SAND", self.parValue["SAND"][index] * correctionFactor, "s", 0, offsetCol, index)
         self.finishChangePar()
 
 
@@ -856,7 +881,7 @@ class rteManipulator(InputFileManipulator):
 
     # expands init-method of FileManipulator to generate parValue-dictionaries for individual instances
     def __init__(self, filename, parList, working_dir, encoding='latin-1'):
-        self.parValue = {"CHWD2": None,
+        self.parValue = {"CHW2": None,
                       "CHD": None,
                       "CH_S2": None,
                       "CH_L2": None,
@@ -880,17 +905,17 @@ class rteManipulator(InputFileManipulator):
                       "CH_BED_TC": None,
                       "CH_EQ": None}
         InputFileManipulator.__init__(self, filename, parList, working_dir, encoding)
-        self.subbasin = self.textOld[0].split(" ")[3].split(":")[0]
+        self.subbasin = headerValue(self.textOld[0], "Subbasin")
 
 
 class fileCioManipulator(InputFileManipulator):
     # information about parameters:
     # (1)row in file, (2) first and (3) last relevant column in row
     # and (4) digits
-    parInfo = {"NBYR": (8, 1, 17, 4),
-               "IYR": (9, 1, 17, 4),
-               "IPRINT": (59, 1, 17, 4),
-               "NYSKIP": (60, 1, 17, 4)}
+    parInfo = {"NBYR": (8, 1, 16, 0),
+               "IYR": (9, 1, 16, 0),
+               "IPRINT": (59, 1, 16, 0),
+               "NYSKIP": (60, 1, 16, 0)}
 
     # expands init-method of FileManipulator to generate parValue-dictionaries for individual instances
     def __init__(self, filename, parList, working_dir, encoding='latin-1'):
