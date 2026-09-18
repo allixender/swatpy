@@ -51,12 +51,26 @@ def fetch(name, sha256):
     return path
 
 
+def match_file_cio_case(project):
+    # file.cio references "tmp1.tmp" but the project ships "Tmp1.Tmp", which only
+    # works on case-insensitive file systems
+    files = {name.lower(): name for name in os.listdir(project)}
+    with open(os.path.join(project, "file.cio"), encoding="latin-1") as f:
+        referenced = [line.split()[0] for line in f if line.strip() and "." in line.split()[0]]
+    for name in referenced:
+        actual = files.get(name.lower())
+        if actual is not None and actual != name:
+            os.rename(os.path.join(project, actual), os.path.join(project, name))
+
+
 @pytest.fixture(scope="session")
 def demo_project(tmp_path_factory):
     target = tmp_path_factory.mktemp("swatdata")
     with zipfile.ZipFile(fetch(*PROJECT_ZIP)) as z:
         z.extractall(target)
-    return str(target / "swat2012_rev637_demo")
+    project = str(target / "swat2012_rev637_demo")
+    match_file_cio_case(project)
+    return project
 
 
 @pytest.fixture(scope="session")
