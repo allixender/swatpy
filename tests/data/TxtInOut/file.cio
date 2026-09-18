@@ -1,0 +1,85 @@
+Master Watershed File: file.cio
+Project Description:
+General Input/Output section (file.cio):
+9/18/2026 12:00:00 AM ARCGIS-SWAT interface AV
+
+General Information/Watershed Configuration:
+fig.fig
+               3    | NBYR : synthetic test value
+            2001    | IYR : synthetic test value
+               0    | FILLER10 : synthetic test value
+               0    | FILLER11 : synthetic test value
+               0    | FILLER12 : synthetic test value
+               0    | FILLER13 : synthetic test value
+               0    | FILLER14 : synthetic test value
+               0    | FILLER15 : synthetic test value
+               0    | FILLER16 : synthetic test value
+               0    | FILLER17 : synthetic test value
+               0    | FILLER18 : synthetic test value
+               0    | FILLER19 : synthetic test value
+               0    | FILLER20 : synthetic test value
+               0    | FILLER21 : synthetic test value
+               0    | FILLER22 : synthetic test value
+               0    | FILLER23 : synthetic test value
+               0    | FILLER24 : synthetic test value
+               0    | FILLER25 : synthetic test value
+               0    | FILLER26 : synthetic test value
+               0    | FILLER27 : synthetic test value
+               0    | FILLER28 : synthetic test value
+               0    | FILLER29 : synthetic test value
+               0    | FILLER30 : synthetic test value
+               0    | FILLER31 : synthetic test value
+               0    | FILLER32 : synthetic test value
+               0    | FILLER33 : synthetic test value
+               0    | FILLER34 : synthetic test value
+               0    | FILLER35 : synthetic test value
+               0    | FILLER36 : synthetic test value
+               0    | FILLER37 : synthetic test value
+               0    | FILLER38 : synthetic test value
+               0    | FILLER39 : synthetic test value
+               0    | FILLER40 : synthetic test value
+               0    | FILLER41 : synthetic test value
+               0    | FILLER42 : synthetic test value
+               0    | FILLER43 : synthetic test value
+               0    | FILLER44 : synthetic test value
+               0    | FILLER45 : synthetic test value
+               0    | FILLER46 : synthetic test value
+               0    | FILLER47 : synthetic test value
+               0    | FILLER48 : synthetic test value
+               0    | FILLER49 : synthetic test value
+               0    | FILLER50 : synthetic test value
+               0    | FILLER51 : synthetic test value
+               0    | FILLER52 : synthetic test value
+               0    | FILLER53 : synthetic test value
+               0    | FILLER54 : synthetic test value
+               0    | FILLER55 : synthetic test value
+               0    | FILLER56 : synthetic test value
+               0    | FILLER57 : synthetic test value
+Output Information:
+               0    | IPRINT : synthetic test value
+               1    | NYSKIP : synthetic test value
+               0    | FILLER61 : synthetic test value
+               0    | FILLER62 : synthetic test value
+               0    | FILLER63 : synthetic test value
+               0    | FILLER64 : synthetic test value
+               0    | FILLER65 : synthetic test value
+               0    | FILLER66 : synthetic test value
+               0    | FILLER67 : synthetic test value
+               0    | FILLER68 : synthetic test value
+               0    | FILLER69 : synthetic test value
+               0    | FILLER70 : synthetic test value
+               0    | FILLER71 : synthetic test value
+               0    | FILLER72 : synthetic test value
+               0    | FILLER73 : synthetic test value
+               0    | FILLER74 : synthetic test value
+               0    | FILLER75 : synthetic test value
+               0    | FILLER76 : synthetic test value
+               0    | FILLER77 : synthetic test value
+               0    | FILLER78 : synthetic test value
+               0    | FILLER79 : synthetic test value
+               0    | FILLER80 : synthetic test value
+               0    | FILLER81 : synthetic test value
+               0    | FILLER82 : synthetic test value
+               0    | FILLER83 : synthetic test value
+               0    | FILLER84 : synthetic test value
+               0    | FILLER85 : synthetic test value

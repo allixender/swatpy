@@ -1,0 +1,32 @@
+ .mgt file Watershed HRU:2 Subbasin:1 HRU:2 Luse:URBN Soil: SOILA Slope: 0-9999 9/18/2026 12:00:00 AM ArcSWAT 2012.10_0.14
+               2    | NMGT : synthetic test value
+Initial Plant Growth Parameters
+               4    | IGRO : synthetic test value
+               5    | PLANT_ID : synthetic test value
+           6.250    | LAI_INIT : synthetic test value
+           7.250    | BIO_INIT : synthetic test value
+           8.250    | PHU_PLT : synthetic test value
+General Management Parameters
+          10.250    | BIOMIX : synthetic test value
+          11.250    | CN2 : synthetic test value
+          12.250    | USLE_P : synthetic test value
+          13.250    | BIO_MIN : synthetic test value
+         14.2500    | FILTERW : synthetic test value
+Urban Management Parameters
+               6    | IURBAN : synthetic test value
+               7    | URBLU : synthetic test value
+Irrigation Management Parameters
+               9    | IRRSC : synthetic test value
+               0    | IRRNO : synthetic test value
+         21.2500    | FLOWMIN : synthetic test value
+         22.2500    | DIVMAX : synthetic test value
+         23.2500    | FLOWFR : synthetic test value
+Tile Drain Management Parameters
+         25.2500    | DDRAIN : synthetic test value
+         26.2500    | TDRAIN : synthetic test value
+         27.2500    | GDRAIN : synthetic test value
+Management Operations:
+               9    | NROT : synthetic test value
+  4 15           1    1          1600.00000   0.00     0.00000 0.00   0.00  0.00
+  9 30           5                  0.00000
+                17
