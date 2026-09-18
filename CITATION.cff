@@ -5,7 +5,8 @@ authors:
   given-names: "Alexander"
   orcid: https://orcid.org/0000-0003-4386-4450
 title: "swatpy: A set of python modules to work with SWAT2012 models"
-version: "0.2"
-doi: 10.5281/zenodo.6322023
-date-released: 2022-03-02
-url: "https://github.com/allixender/swatpy"
+version: "0.3.0"
+doi: 10.5281/zenodo.5875988
+date-released: 2026-09-19
+repository-code: "https://github.com/allixender/swatpy"
+license: MIT

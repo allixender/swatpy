@@ -46,4 +46,4 @@ directory, or uses `model.swat_exec` explicitly.
 ## Citing
 
 If you use swatpy, please cite it via the Zenodo DOI
-[10.5281/zenodo.6322023](https://doi.org/10.5281/zenodo.6322023), see also `CITATION.cff`.
+[10.5281/zenodo.6322023](https://doi.org/10.5281/zenodo.5875988), see also `CITATION.cff`.
