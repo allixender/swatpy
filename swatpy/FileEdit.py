@@ -92,7 +92,7 @@ Use subclasses as follows:
     (4) f.finishChangePar()
 
 for repeated manipulation: step (1) should not be processed several times,
-otherwise step (4) won't work as supposed. 
+otherwise step (4) won't work as supposed.
 Calling "f.finishChangePar() twice resets the original file
 
 """
