@@ -32,6 +32,7 @@ classifiers = [
 calibration = ["spotpy", "scipy", "pandas"]
 mpi = ["spotpy", "mpi4py"]
 test = ["pytest>=7"]
+docs = ["mkdocs>=1.6,<2", "mkdocs-material", "mkdocstrings[python]"]
 dev = ["pytest>=7", "build", "twine", "ruff"]
 
 [project.urls]

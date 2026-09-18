@@ -9,7 +9,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```sh
-pip install -e ".[dev]"                       # test, build, twine, ruff; [calibration] adds spotpy/scipy/pandas
+pip install -e ".[dev]"                       # test, build, twine, ruff; [calibration] adds spotpy/scipy/pandas; [docs] adds mkdocs
+mkdocs serve                                  # docs/ (MkDocs Material + mkdocstrings), deploys to GitHub Pages via docs.yml
 pytest -m "not swat"                          # unit tests, synthetic fixtures, all platforms
 pytest tests/test_readout.py -k monthly       # single test / subset
 SWATPY_TEST_DOWNLOAD=1 pytest -m swat -rs     # real SWAT2012 rev637 demo project (+ model runs on linux x86_64)

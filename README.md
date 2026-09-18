@@ -2,7 +2,7 @@
 
 A set of Python modules to work with the Soil and Water Assessment Tool (SWAT2012), including model runs, programmatic edits of the model input files, readout of simulation outputs and calibration with the SPOTPY package.
 
-[![PyPI version](https://badge.fury.io/py/swatpy.svg)](https://badge.fury.io/py/swatpy) [![tests](https://github.com/allixender/swatpy/actions/workflows/tests.yml/badge.svg)](https://github.com/allixender/swatpy/actions/workflows/tests.yml) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6322023.svg)](https://doi.org/10.5281/zenodo.6322023)
+[![PyPI version](https://badge.fury.io/py/swatpy.svg)](https://badge.fury.io/py/swatpy) [![tests](https://github.com/allixender/swatpy/actions/workflows/tests.yml/badge.svg)](https://github.com/allixender/swatpy/actions/workflows/tests.yml) [![docs](https://github.com/allixender/swatpy/actions/workflows/docs.yml/badge.svg)](https://github.com/allixender/swatpy/actions/workflows/docs.yml) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6322023.svg)](https://doi.org/10.5281/zenodo.6322023)
 
 ## Installation
 
@@ -55,6 +55,15 @@ Version 0.3.0 fixes several errors that affect calibration results produced with
 - `output.hru` was read from the wrong columns.
 
 The packaging moved from `setup.py` to `pyproject.toml`; spotpy, scipy and pandas are optional dependencies now.
+
+## Documentation
+
+The user and API documentation lives in `docs/` and is published to GitHub Pages at https://allixender.github.io/swatpy/ (built by `.github/workflows/docs.yml`).
+
+```sh
+pip install -e ".[docs]"   # mkdocs-material + mkdocstrings
+mkdocs serve               # live preview
+```
 
 ## Development
 
