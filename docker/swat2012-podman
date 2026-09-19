@@ -1,0 +1,5 @@
+#!/bin/sh
+# Run the SWAT2012 container as if it were a local executable: the current directory
+# (the TxtInOut folder) is mounted as /model. Use it as `model.swat_exec` in swatpy.
+#   SWAT2012_IMAGE=localhost/swat2012:rev692 swat2012-podman
+exec podman run --rm --userns=keep-id -v "$PWD":/model:Z "${SWAT2012_IMAGE:-localhost/swat2012:latest}" "$@"

@@ -27,6 +27,20 @@ model.swat_exec = "/path/to/swat2012"
 model.is_runnable()   # 1 if an executable was found
 ```
 
+### As a podman image
+
+No executable at hand (macOS, Windows)? `docker/` builds one into a container image, see
+`docker/README_docker.md`:
+
+```sh
+podman build -t swat2012:rev692 -t swat2012:latest docker/
+```
+
+```python
+# wrapper script: podman run --rm -v $PWD:/model swat2012
+model.swat_exec = "/path/to/swatpy/docker/swat2012-podman"
+```
+
 ## From source
 
 ```sh
